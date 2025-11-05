@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Assistant - Your Advanced Technical Guide</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .quick-actions {
+            margin-bottom: 30px;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #34495e;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .action-btn:hover {
+            background: #3498db;
+        }
+
+        .action-btn i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .features {
+            flex: 1;
+        }
+
+        .features h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+        }
+
+        .feature-item i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .chat-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            color: #6c757d;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #2c3e50;
+            border: 1px solid #e9ecef;
+        }
+
+        .message.user .message-content {
+            background: #3498db;
+            color: white;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .message.bot .message-avatar {
+            background: #3498db;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            border-color: #3498db;
+        }
+
+        .send-btn {
+            padding: 15px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #2980b9;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+            margin-left: 60px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #3498db;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .image-upload {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-upload input[type="file"] {
+            display: none;
+        }
+
+        .image-upload-btn {
+            padding: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .image-upload-btn:hover {
+            background: #c0392b;
+        }
+
+        .calculator-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .calculator-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .calculator-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .calc-btn {
+            padding: 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: #2980b9;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                flex-direction: column;
+                height: 100vh;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .quick-actions {
+                display: flex;
+                gap: 10px;
+                overflow-x: auto;
+            }
+
+            .action-btn {
+                white-space: nowrap;
+                min-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <h1>3D Print Assistant</h1>
+                <p>Advanced Technical Guide</p>
+            </div>
+
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <button class="action-btn" onclick="startTroubleshooting()">
+                    <i class="fas fa-tools"></i>
+                    Troubleshoot Issue
+                </button>
+                <button class="action-btn" onclick="openCalculator()">
+                    <i class="fas fa-calculator"></i>
+                    Settings Calculator
+                </button>
+                <button class="action-btn" onclick="getMaterialAdvice()">
+                    <i class="fas fa-flask"></i>
+                    Material Guide
+                </button>
+                <button class="action-btn" onclick="uploadImage()">
+                    <i class="fas fa-camera"></i>
+                    Analyze Print Issue
+                </button>
+            </div>
+
+            <div class="features">
+                <h3>Features</h3>
+                <div class="feature-item">
+                    <i class="fas fa-search"></i>
+                    <span>Image Analysis</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <span>Temperature Calculator</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Layer Troubleshooting</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Beginner Friendly</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-header">
+                <h2>Welcome to 3D Print Assistant!</h2>
+                <p>I'm here to help you solve 3D printing problems, recommend materials, and optimize your print settings.</p>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p>Hello! I'm your 3D printing technical assistant. I can help you with:</p>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Troubleshooting print failures and quality issues</li>
+                            <li>Analyzing photos of failed prints</li>
+                            <li>Recommending materials for your projects</li>
+                            <li>Calculating optimal print settings</li>
+                            <li>Step-by-step calibration guidance</li>
+                        </ul>
+                        <p>What can I help you with today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-group">
+                    <div class="image-upload">
+                        <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+                        <button class="image-upload-btn" onclick="document.getElementById('imageInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="messageInput" placeholder="Describe your 3D printing issue or ask a question..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Calculator Modal -->
+    <div class="calculator-modal" id="calculatorModal">
+        <div class="calculator-content">
+            <button class="close-btn" onclick="closeCalculator()">&times;</button>
+            <h2>Print Settings Calculator</h2>
+            <form class="calculator-form" onsubmit="calculateSettings(event)">
+                <div class="form-group">
+                    <label for="material">Material Type:</label>
+                    <select id="material" required>
+                        <option value="">Select Material</option>
+                        <option value="PLA">PLA</option>
+                        <option value="ABS">ABS</option>
+                        <option value="PETG">PETG</option>
+                        <option value="TPU">TPU</option>
+                        <option value="HIPS">HIPS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="layerHeight">Layer Height (mm):</label>
+                    <select id="layerHeight" required>
+                        <option value="0.1">0.1mm (High Quality)</option>
+                        <option value="0.15">0.15mm (Fine)</option>
+                        <option value="0.2" selected>0.2mm (Standard)</option>
+                        <option value="0.25">0.25mm (Fast)</option>
+                        <option value="0.3">0.3mm (Draft)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="printSpeed">Print Speed (mm/s):</label>
+                    <input type="number" id="printSpeed" min="10" max="100" value="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="infill">Infill Percentage:</label>
+                    <input type="number" id="infill" min="0" max="100" value="20" required>
+                </div>
+                <button type="submit" class="calc-btn">Calculate Optimal Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 3D Printing Knowledge Base
+        const knowledgeBase = {
+            materials: {
+                PLA: {
+                    nozzleTemp: [190, 220],
+                    bedTemp: [50, 60],
+                    properties: "Easy to print, biodegradable, low warping, good surface finish",
+                    uses: "Prototypes, decorative items, beginner projects",
+                    tips: "No heated bed required, good first layer adhesion, minimal warping"
+                },
+                ABS: {
+                    nozzleTemp: [230, 250],
+                    bedTemp: [90, 110],
+                    properties: "Strong, heat resistant, flexible, prone to warping",
+                    uses: "Functional parts, automotive, electronics housings",
+                    tips: "Requires heated bed and enclosure, good ventilation needed"
+                },
+                PETG: {
+                    nozzleTemp: [230, 250],
+                    bedTemp: [70, 90],
+                    properties: "Strong, chemical resistant, clear, easy to print",
+                    uses: "Food containers, mechanical parts, transparent items",
+                    tips: "Combines PLA ease with ABS strength, minimal warping"
+                },
+                TPU: {
+                    nozzleTemp: [210, 230],
+                    bedTemp: [40, 60],
+                    properties: "Flexible, rubber-like, impact resistant",
+                    uses: "Phone cases, gaskets, flexible joints",
+                    tips: "Print slowly, reduce retraction, direct drive extruder preferred"
+                },
+                HIPS: {
+                    nozzleTemp: [230, 250],
+                    bedTemp: [90, 110],
+                    properties: "Lightweight, soluble support material, impact resistant",
+                    uses: "Support material, lightweight parts, prototypes",
+                    tips: "Similar to ABS, dissolves in limonene, good for supports"
+                }
+            },
+            
+            troubleshooting: {
+                "first layer problems": {
+                    causes: ["Bed not level", "Nozzle too far/close", "Bed temperature too low", "Poor bed adhesion"],
+                    solutions: ["Level bed carefully", "Adjust Z-offset", "Increase bed temperature", "Clean bed surface", "Use adhesion aids"]
+                },
+                "warping": {
+                    causes: ["Rapid cooling", "No heated bed", "Poor bed adhesion", "High ambient temperature difference"],
+                    solutions: ["Use heated bed", "Add enclosure", "Use brim/raft", "Reduce cooling fan speed", "Use adhesion aids"]
+                },
+                "stringing": {
+                    causes: ["Temperature too high", "Retraction settings wrong", "Travel speed too slow"],
+                    solutions: ["Lower nozzle temperature", "Increase retraction distance", "Increase travel speed", "Enable combing"]
+                },
+                "layer adhesion": {
+                    causes: ["Temperature too low", "Cooling too aggressive", "Print speed too fast", "Under-extrusion"],
+                    solutions: ["Increase nozzle temperature", "Reduce cooling", "Slow down print speed", "Check extruder calibration"]
+                },
+                "under extrusion": {
+                    causes: ["Clogged nozzle", "Filament diameter wrong", "Extruder steps wrong", "Temperature too low"],
+                    solutions: ["Clean/replace nozzle", "Check filament diameter", "Calibrate extruder", "Increase temperature"]
+                },
+                "over extrusion": {
+                    causes: ["Flow rate too high", "Temperature too high", "Print speed too slow"],
+                    solutions: ["Reduce flow rate", "Lower temperature", "Increase print speed", "Check extruder calibration"]
+                }
+            }
+        };
+
+        // Chat functionality
+        function addMessage(content, isUser = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-${isUser ? 'user' : 'robot'}"></i>
+                </div>
+                <div class="message-content">
+                    ${content}
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'flex';
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                
+                showTyping();
+                setTimeout(() => {
+                    hideTyping();
+                    processMessage(message);
+                }, 1000 + Math.random() * 2000);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function processMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            let response = "";
+
+            // Material recommendations
+            if (lowerMessage.includes('material') || lowerMessage.includes('filament')) {
+                response = generateMaterialResponse(lowerMessage);
+            }
+            // Troubleshooting
+            else if (lowerMessage.includes('problem') || lowerMessage.includes('issue') || lowerMessage.includes('fail') || lowerMessage.includes('wrong')) {
+                response = generateTroubleshootingResponse(lowerMessage);
+            }
+            // Temperature questions
+            else if (lowerMessage.includes('temperature') || lowerMessage.includes('temp') || lowerMessage.includes('hot')) {
+                response = generateTemperatureResponse(lowerMessage);
+            }
+            // Settings questions
+            else if (lowerMessage.includes('setting') || lowerMessage.includes('speed') || lowerMessage.includes('layer')) {
+                response = generateSettingsResponse(lowerMessage);
+            }
+            // Calibration
+            else if (lowerMessage.includes('calibrat') || lowerMessage.includes('level') || lowerMessage.includes('adjust')) {
+                response = generateCalibrationResponse(lowerMessage);
+            }
+            // General help
+            else {
+                response = generateGeneralResponse(lowerMessage);
+            }
+
+            addMessage(response);
+        }
+
+        function generateMaterialResponse(message) {
+            const materials = Object.keys(knowledgeBase.materials);
+            let response = "<h4>🧪 Material Recommendations</h4>";
+            
+            if (message.includes('beginner') || message.includes('start') || message.includes('first')) {
+                const pla = knowledgeBase.materials.PLA;
+                response += `<p><strong>For beginners, I highly recommend PLA:</strong></p>
+                <ul>
+                    <li><strong>Temperature:</strong> Nozzle ${pla.nozzleTemp[0]}-${pla.nozzleTemp[1]}°C, Bed ${pla.bedTemp[0]}-${pla.bedTemp[1]}°C</li>
+                    <li><strong>Properties:</strong> ${pla.properties}</li>
+                    <li><strong>Tips:</strong> ${pla.tips}</li>
+                </ul>`;
+            } else {
+                response += "<p>Here's a comparison of common 3D printing materials:</p>";
+                materials.forEach(material => {
+                    const info = knowledgeBase.materials[material];
+                    response += `<p><strong>${material}:</strong> ${info.properties}<br>
+                    <em>Best for:</em> ${info.uses}</p>`;
+                });
+            }
+            
+            response += "<p>💡 <strong>Tip:</strong> Use the Settings Calculator for specific temperature recommendations!</p>";
+            return response;
+        }
+
+        function generateTroubleshootingResponse(message) {
+            let response = "<h4>🔧 Troubleshooting Guide</h4>";
+            
+            // Check for specific issues
+            const issues = Object.keys(knowledgeBase.troubleshooting);
+            let foundIssue = null;
+            
+            for (let issue of issues) {
+                if (message.includes(issue.replace(' ', '')) || 
+                    issue.split(' ').some(word => message.includes(word))) {
+                    foundIssue = issue;
+                    break;
+                }
+            }
+            
+            if (foundIssue) {
+                const troubleshoot = knowledgeBase.troubleshooting[foundIssue];
+                response += `<p><strong>Issue: ${foundIssue.charAt(0).toUpperCase() + foundIssue.slice(1)}</strong></p>
+                <p><strong>Common Causes:</strong></p>
+                <ul>${troubleshoot.causes.map(cause => `<li>${cause}</li>`).join('')}</ul>
+                <p><strong>Solutions:</strong></p>
+                <ul>${troubleshoot.solutions.map(solution => `<li>${solution}</li>`).join('')}</ul>`;
+            } else {
+                response += `<p>I can help you troubleshoot these common issues:</p>
+                <ul>
+                    ${issues.map(issue => `<li>${issue.charAt(0).toUpperCase() + issue.slice(1)}</li>`).join('')}
+                </ul>
+                <p>📸 <strong>Pro tip:</strong> Upload a photo of your failed print for more specific analysis!</p>`;
+            }
+            
+            return response;
+        }
+
+        function generateTemperatureResponse(message) {
+            let response = "<h4>🌡️ Temperature Guidelines</h4>";
+            
+            // Check if specific material mentioned
+            const materials = Object.keys(knowledgeBase.materials);
+            let foundMaterial = null;
+            
+            for (let material of materials) {
+                if (message.includes(material.toLowerCase())) {
+                    foundMaterial = material;
+                    break;
+                }
+            }
+            
+            if (foundMaterial) {
+                const info = knowledgeBase.materials[foundMaterial];
+                response += `<p><strong>${foundMaterial} Temperature Settings:</strong></p>
+                <ul>
+                    <li><strong>Nozzle:</strong> ${info.nozzleTemp[0]}-${info.nozzleTemp[1]}°C</li>
+                    <li><strong>Bed:</strong> ${info.bedTemp[0]}-${info.bedTemp[1]}°C</li>
+                </ul>
+                <p><strong>Tips:</strong> ${info.tips}</p>`;
+            } else {
+                response += "<p>Here are temperature ranges for common materials:</p>";
+                materials.forEach(material => {
+                    const info = knowledgeBase.materials[material];
+                    response += `<p><strong>${material}:</strong> Nozzle ${info.nozzleTemp[0]}-${info.nozzleTemp[1]}°C, Bed ${info.bedTemp[0]}-${info.bedTemp[1]}°C</p>`;
+                });
+            }
+            
+            response += "<p>⚠️ <strong>Important:</strong> Start with lower temperatures and increase gradually if needed!</p>";
+            return response;
+        }
+
+        function generateSettingsResponse(message) {
+            return `<h4>⚙️ Print Settings Guide</h4>
+            <p>Here are recommended settings for quality prints:</p>
+            <ul>
+                <li><strong>Layer Height:</strong> 0.2mm (standard), 0.1mm (high quality), 0.3mm (fast)</li>
+                <li><strong>Print Speed:</strong> 50mm/s (standard), 30mm/s (quality), 80mm/s (fast)</li>
+                <li><strong>Infill:</strong> 20% (standard), 10% (decorative), 50%+ (functional)</li>
+                <li><strong>Wall Thickness:</strong> 0.8-1.2mm (2-3 perimeters)</li>
+                <li><strong>Support:</strong> Use for overhangs >45°</li>
+            </ul>
+            <p>🧮 Use the Settings Calculator for personalized recommendations based on your material and requirements!</p>`;
+        }
+
+        function generateCalibrationResponse(message) {
+            return `<h4>📐 Calibration Steps</h4>
+            <p>Follow these steps for proper calibration:</p>
+            <ol>
+                <li><strong>Bed Leveling:</strong> Use paper method or auto-leveling</li>
+                <li><strong>Z-Offset:</strong> Adjust first layer height</li>
+                <li><strong>Extruder Steps:</strong> Calibrate E-steps (100mm test)</li>
+                <li><strong>Flow Rate:</strong> Print calibration cube, measure walls</li>
+                <li><strong>Temperature Tower:</strong> Find optimal printing temperature</li>
+                <li><strong>Retraction Test:</strong> Minimize stringing</li>
+            </ol>
+            <p>🎯 <strong>Pro tip:</strong> Calibrate in this order for best results. Each step affects the next!</p>`;
+        }
+
+        function generateGeneralResponse(message) {
+            const responses = [
+                `<p>I'm here to help with your 3D printing challenges! I can assist with:</p>
+                <ul>
+                    <li>🔧 Troubleshooting print failures</li>
+                    <li>🧪 Material selection and properties</li>
+                    <li>⚙️ Optimal print settings</li>
+                    <li>📐 Calibration procedures</li>
+                    <li>📸 Print failure analysis from photos</li>
+                </ul>
+                <p>What specific issue are you facing?</p>`,
+                
+                `<p>As your 3D printing technical assistant, I'm designed to help beginners navigate common challenges. Try asking me about:</p>
+                <ul>
+                    <li>"My first layer won't stick"</li>
+                    <li>"What material should I use for..."</li>
+                    <li>"My print is warping"</li>
+                    <li>"What temperature for PLA?"</li>
+                </ul>
+                <p>Or use the quick action buttons for guided assistance!</p>`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Quick action functions
+        function startTroubleshooting() {
+            addMessage("I'd like help troubleshooting a 3D printing issue", true);
+            setTimeout(() => {
+                addMessage(`<h4>🔧 Troubleshooting Assistant</h4>
+                <p>I'll help you diagnose your printing issue. Please describe:</p>
+                <ul>
+                    <li>What problem are you experiencing?</li>
+                    <li>What material are you using?</li>
+                    <li>What printer model do you have?</li>
+                    <li>When does the problem occur? (first layer, mid-print, etc.)</li>
+                </ul>
+                <p>📸 <strong>Even better:</strong> Upload a photo of the failed print for visual analysis!</p>`);
+            }, 500);
+        }
+
+        function getMaterialAdvice() {
+            addMessage("I need help choosing the right material", true);
+            setTimeout(() => {
+                addMessage(generateMaterialResponse("material advice beginner"));
+            }, 500);
+        }
+
+        function uploadImage() {
+            document.getElementById('imageInput').click();
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                addMessage(`📸 Image uploaded: ${file.name}`, true);
+                setTimeout(() => {
+                    addMessage(`<h4>📸 Image Analysis</h4>
+                    <p>I can see you've uploaded an image of your print. While I can't process the actual image in this demo, here's how I would analyze it:</p>
+                    <ul>
+                        <li><strong>Layer adhesion issues:</strong> Look for layer separation or delamination</li>
+                        <li><strong>Surface quality:</strong> Check for rough surfaces, blobs, or stringing</li>
+                        <li><strong>Dimensional accuracy:</strong> Measure critical dimensions</li>
+                        <li><strong>Support quality:</strong> Evaluate support removal and surface finish</li>
+                    </ul>
+                    <p>Please describe what you see in the image, and I'll provide specific troubleshooting advice!</p>
+                    <p>💡 <strong>Common issues to look for:</strong></p>
+                    <ul>
+                        <li>Warped corners or lifting</li>
+                        <li>Rough or stringy surfaces</li>
+                        <li>Layer lines or gaps</li>
+                        <li>Poor overhang quality</li>
+                        <li>Inconsistent extrusion</li>
+                    </ul>`);
+                }, 1000);
+            }
+        }
+
+        // Calculator functions
+        function openCalculator() {
+            document.getElementById('calculatorModal').style.display = 'block';
+        }
+
+        function closeCalculator() {
+            document.getElementById('calculatorModal').style.display = 'none';
+        }
+
+        function calculateSettings(event) {
+            event.preventDefault();
+            
+            const material = document.getElementById('material').value;
+            const layerHeight = parseFloat(document.getElementById('layerHeight').value);
+            const printSpeed = parseInt(document.getElementById('printSpeed').value);
+            const infill = parseInt(document.getElementById('infill').value);
+            
+            const materialInfo = knowledgeBase.materials[material];
+            
+            // Calculate optimal settings
+            let recommendations = `<h4>🧮 Calculated Settings for ${material}</h4>`;
+            recommendations += `<p><strong>Temperature Settings:</strong></p>
+            <ul>
+                <li><strong>Nozzle:</strong> ${materialInfo.nozzleTemp[0]}-${materialInfo.nozzleTemp[1]}°C</li>
+                <li><strong>Bed:</strong> ${materialInfo.bedTemp[0]}-${materialInfo.bedTemp[1]}°C</li>
+            </ul>`;
+            
+            recommendations += `<p><strong>Your Settings:</strong></p>
+            <ul>
+                <li><strong>Layer Height:</strong> ${layerHeight}mm</li>
+                <li><strong>Print Speed:</strong> ${printSpeed}mm/s</li>
+                <li><strong>Infill:</strong> ${infill}%</li>
+            </ul>`;
+            
+            // Add recommendations based on settings
+            recommendations += `<p><strong>Recommendations:</strong></p><ul>`;
+            
+            if (layerHeight <= 0.15) {
+                recommendations += `<li>Fine layer height detected - reduce speed to ${Math.max(20, printSpeed - 20)}mm/s for better quality</li>`;
+            }
+            
+            if (printSpeed > 60 && material === 'ABS') {
+                recommendations += `<li>ABS prints better at slower speeds - try ${printSpeed - 20}mm/s</li>`;
+            }
+            
+            if (infill > 50) {
+                recommendations += `<li>High infill detected - consider reducing print speed for better layer adhesion</li>`;
+            }
+            
+            recommendations += `</ul>`;
+            recommendations += `<p><strong>Material Tips:</strong> ${materialInfo.tips}</p>`;
+            
+            closeCalculator();
+            addMessage("Calculate optimal print settings", true);
+            setTimeout(() => {
+                addMessage(recommendations);
+            }, 500);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('calculatorModal');
+            if (event.target === modal) {
+                closeCalculator();
+            }
+        }
+
+        // Initialize with welcome message
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on input
+            document.getElementById('messageInput').focus();
+        });
+    </script>
+</body>
+</html>
